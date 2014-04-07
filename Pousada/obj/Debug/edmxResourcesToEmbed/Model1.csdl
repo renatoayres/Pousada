@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PousadaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="PousadaEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Aluno" EntityType="PousadaModel.Aluno" />
+    <EntitySet Name="Financeiro" EntityType="PousadaModel.Financeiro" />
+    <EntitySet Name="sysdiagrams" EntityType="PousadaModel.sysdiagrams" />
+    <AssociationSet Name="FK_Financeiro_Aluno" Association="PousadaModel.FK_Financeiro_Aluno">
+      <End Role="Aluno" EntitySet="Aluno" />
+      <End Role="Financeiro" EntitySet="Financeiro" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(PousadaModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(PousadaModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="nome" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="nascimento" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="datainicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="filiacao" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+    <Property Name="endereco" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="cidade" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="estado" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bairro" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="cep" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="email" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+    <Property Name="telefoneresidencial" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="telefonecelular" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="telefonecomercial" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="rg" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="cpf" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+    <Property Name="datafim" Type="DateTime" Precision="3" />
+    <Property Name="curso" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="universidade" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="observacoes" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Financeiro" Relationship="PousadaModel.FK_Financeiro_Aluno" FromRole="Aluno" ToRole="Financeiro" />
+  </EntityType>
+  <EntityType Name="Financeiro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="entrada" Type="Boolean" Nullable="false" />
+    <Property Name="alunoid" Type="Int32" Nullable="false" />
+    <Property Name="valor" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="vencimento" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Aluno" Relationship="PousadaModel.FK_Financeiro_Aluno" FromRole="Financeiro" ToRole="Aluno" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Financeiro_Aluno">
+    <End Role="Aluno" Type="PousadaModel.Aluno" Multiplicity="1" />
+    <End Role="Financeiro" Type="PousadaModel.Financeiro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aluno">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Financeiro">
+        <PropertyRef Name="alunoid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PousadaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PousadaModelStoreContainer">
+    <EntitySet Name="Aluno" EntityType="PousadaModel.Store.Aluno" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Financeiro" EntityType="PousadaModel.Store.Financeiro" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="PousadaModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Financeiro_Aluno" Association="PousadaModel.Store.FK_Financeiro_Aluno">
+      <End Role="Aluno" EntitySet="Aluno" />
+      <End Role="Financeiro" EntitySet="Financeiro" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nome" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="nascimento" Type="datetime" Nullable="false" />
+    <Property Name="datainicio" Type="datetime" Nullable="false" />
+    <Property Name="filiacao" Type="nvarchar" Nullable="false" MaxLength="250" />
+    <Property Name="endereco" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="cidade" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="estado" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="bairro" Type="nvarchar" MaxLength="50" />
+    <Property Name="cep" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="250" />
+    <Property Name="telefoneresidencial" Type="nvarchar" MaxLength="12" />
+    <Property Name="telefonecelular" Type="nvarchar" MaxLength="12" />
+    <Property Name="telefonecomercial" Type="nvarchar" MaxLength="12" />
+    <Property Name="rg" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="cpf" Type="nvarchar" Nullable="false" MaxLength="14" />
+    <Property Name="datafim" Type="datetime" />
+    <Property Name="curso" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="universidade" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="observacoes" Type="ntext" />
+  </EntityType>
+  <EntityType Name="Financeiro">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="entrada" Type="bit" Nullable="false" />
+    <Property Name="alunoid" Type="int" Nullable="false" />
+    <Property Name="valor" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="vencimento" Type="date" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Financeiro_Aluno">
+    <End Role="Aluno" Type="PousadaModel.Store.Aluno" Multiplicity="1" />
+    <End Role="Financeiro" Type="PousadaModel.Store.Financeiro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aluno">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Financeiro">
+        <PropertyRef Name="alunoid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+</Schema>
