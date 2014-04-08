@@ -11,6 +11,16 @@ namespace Pousada
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bs-theme-js").Include(
+                    "~/Scripts/theme/bootstrap.min.js",
+                    "~/Scripts/theme/jquery.knob.js",
+                    "~/Scripts/theme/jquery.flot.js",
+                    "~/Scripts/theme/jquery.flot.stack.js",
+                    "~/Scripts/theme/jquery.flot.resize.js",
+                    "~/Scripts/theme/theme.js",
+                    "~/Scripts/theme/jquery.uniform.min.js",
+                    "~/Scripts/jquery.maskedinput.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
 
